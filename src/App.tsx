@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "./index.css";
 import { ButterModal } from "butter-modal";
-
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, Transition, Variants } from "framer-motion";
 import { Code } from "./components/Code";
 
-const fadeUpVariants = {
+const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 80, scale: 0.97 },
   visible: (i: number) => ({
     opacity: 1,
@@ -20,7 +19,7 @@ const fadeUpVariants = {
   }),
 };
 
-const tadaVariants = {
+const tadaVariants: Variants = {
   hidden: { scale: 0.5, rotate: -15 },
   visible: {
     opacity: 1,
@@ -34,11 +33,25 @@ const tadaVariants = {
   },
 };
 
-const SHARED_TRANSITION = {
+const SHARED_TRANSITION: Transition = {
   type: "spring",
   stiffness: 500,
   damping: 40,
   mass: 0.3,
+};
+
+const propStaggerVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.7 + i * 0.045,
+      type: "spring",
+      stiffness: 280,
+      damping: 24,
+    },
+  }),
 };
 
 function FadeUp({
@@ -53,7 +66,6 @@ function FadeUp({
       custom={index}
       initial="hidden"
       animate="visible"
-      //@ts-ignore
       variants={fadeUpVariants}
     >
       {children}
@@ -80,19 +92,14 @@ function App() {
             A smoothly animated modal
           </StyledModalDescription>
           <StyledModalFooter>
-            <motion.div
+            <StyledButton
               layoutId="nav-btn"
-              //@ts-ignore
               transition={SHARED_TRANSITION}
+              onClick={() => setStep("height")}
               style={{ width: "100%", maxWidth: 200 }}
             >
-              <StyledButton
-                onClick={() => setStep("height")}
-                style={{ width: "100%" }}
-              >
-                Next
-              </StyledButton>
-            </motion.div>
+              Next
+            </StyledButton>
           </StyledModalFooter>
         </StyledModalContent>
       ),
@@ -107,22 +114,17 @@ function App() {
             animate its height.. can you see the transition?
           </StyledModalDescription>
           <StyledModalFooter>
-            <StyledButton onClick={() => setStep("default")} variant="unstyled">
+            <StyledButton variant="unstyled" onClick={() => setStep("default")}>
               Back
             </StyledButton>
-            <motion.div
+            <StyledButton
               layoutId="nav-btn"
-              //@ts-ignore
               transition={SHARED_TRANSITION}
+              onClick={() => setStep("paragraph")}
               style={{ width: "100%", maxWidth: 200 }}
             >
-              <StyledButton
-                onClick={() => setStep("paragraph")}
-                style={{ width: "100%" }}
-              >
-                Next
-              </StyledButton>
-            </motion.div>
+              Next
+            </StyledButton>
           </StyledModalFooter>
         </StyledModalContent>
       ),
@@ -142,22 +144,17 @@ function App() {
             culpa qui officia deserunt mollit anim id est laborum.
           </StyledModalDescription>
           <StyledModalFooter>
-            <StyledButton onClick={() => setStep("height")} variant="unstyled">
+            <StyledButton variant="unstyled" onClick={() => setStep("height")}>
               Back
             </StyledButton>
-            <motion.div
+            <StyledButton
               layoutId="nav-btn"
-              //@ts-ignore
               transition={SHARED_TRANSITION}
+              onClick={() => setStep("success")}
               style={{ width: "100%", maxWidth: 200 }}
             >
-              <StyledButton
-                onClick={() => setStep("success")}
-                style={{ width: "100%" }}
-              >
-                Next
-              </StyledButton>
-            </motion.div>
+              Next
+            </StyledButton>
           </StyledModalFooter>
         </StyledModalContent>
       ),
@@ -176,22 +173,20 @@ function App() {
           </StyledModalDescription>
           <StyledModalFooter>
             <StyledButton
-              onClick={() => setStep("paragraph")}
               variant="unstyled"
+              onClick={() => setStep("paragraph")}
             >
               Back
             </StyledButton>
-            <motion.div
-              //@ts-ignore
+            <StyledButton
               layoutId="nav-btn"
-              //@ts-ignore
               transition={SHARED_TRANSITION}
+              variant="primary"
+              onClick={() => handleClose()}
               style={{ width: "100%", maxWidth: 200 }}
             >
-              <StyledButton onClick={() => handleClose()} variant="primary">
-                Close
-              </StyledButton>
-            </motion.div>
+              Close
+            </StyledButton>
           </StyledModalFooter>
         </StyledModalContent>
       ),
@@ -237,7 +232,6 @@ function App() {
           <motion.div
             initial="hidden"
             animate="visible"
-            //@ts-ignore
             variants={tadaVariants}
             whileHover={{ rotate: [0, -10, 10, -10, 0] }}
             whileTap={{ scale: 0.9 }}
@@ -257,8 +251,8 @@ function App() {
             <StyledVersionText>v1.0.0</StyledVersionText>
           </StyledVersion>
           ButterModal is a multi-step modal component for React with smooth
-          spring animations. Built on top of Radix UI's Dialog primitive and
-          framer-motion.
+          spring animations. Built on top of Radix UI&apos;s Dialog primitive
+          and framer-motion.
         </StyledContent>
       </FadeUp>
 
@@ -325,39 +319,29 @@ function App() {
 
       <FadeUp index={10}>
         <StyledPropsContainer>
-          {[
-            ["states", "ModalState[]"],
-            ["initialStep", "ModalStep"],
-            ["step", "ModalStep"],
-            ["onStepChange", "(step: ModalStep) => void"],
-            ["open", "boolean"],
-            ["onOpenChange", "(open: boolean) => void"],
-            ["onClose", "() => void"],
-            ["trigger", "React.ReactNode"],
-            ["overlayStyle", "React.CSSProperties"],
-            ["contentStyle", "React.CSSProperties"],
-            ["containerStyle", "React.CSSProperties"],
-            ["theme", "ButterModalTheme"],
-            ["children", "({ step, setStep, close }) => React.ReactNode"],
-          ].map(([key, value], i) => (
+          {(
+            [
+              ["states", "ModalState[]"],
+              ["initialStep", "ModalStep"],
+              ["step", "ModalStep"],
+              ["onStepChange", "(step: ModalStep) => void"],
+              ["open", "boolean"],
+              ["onOpenChange", "(open: boolean) => void"],
+              ["onClose", "() => void"],
+              ["trigger", "React.ReactNode"],
+              ["overlayStyle", "React.CSSProperties"],
+              ["contentStyle", "React.CSSProperties"],
+              ["containerStyle", "React.CSSProperties"],
+              ["theme", "ButterModalTheme"],
+              ["children", "({ step, setStep, close }) => React.ReactNode"],
+            ] as [string, string][]
+          ).map(([key, value], i) => (
             <motion.div
               key={key}
               custom={i}
               initial="hidden"
               animate="visible"
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: (i: number) => ({
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    delay: 0.7 + i * 0.045,
-                    type: "spring",
-                    stiffness: 280,
-                    damping: 24,
-                  },
-                }),
-              }}
+              variants={propStaggerVariants}
             >
               <StyledPropItem>
                 <StyledPropKey>{key}</StyledPropKey>
@@ -423,13 +407,18 @@ const StyledButton = styled(motion.button)<{ variant?: string }>`
   border-radius: 999px;
   font-family: var(--font);
   background: ${(props) =>
-    props.variant === "unstyled" ? "var(--surface)" : "var(--primary)"};
+    props.variant === "unstyled"
+      ? "var(--surface)"
+      : props.variant === "primary"
+        ? "var(--primary)"
+        : "var(--primary)"};
   border: 1px solid
     ${(props) =>
       props.variant === "unstyled" ? "var(--surface)" : "var(--primary)"};
   color: ${(props) => (props.variant === "unstyled" ? "var(--text)" : "#fff")};
   font-size: 1rem;
   font-weight: 500;
+  cursor: pointer;
 
   &:active {
     scale: 0.97;
@@ -444,7 +433,10 @@ const StyledButton = styled(motion.button)<{ variant?: string }>`
         ? "var(--surfaceHover)"
         : "var(--primaryHover)"};
   }
-  transition: 0.2s ease all;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   @media (max-width: 480px) {
     font-size: 0.9rem;
