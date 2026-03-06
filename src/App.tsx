@@ -356,7 +356,7 @@ function App() {
       </FadeUp>
       <FadeUp index={12}>
         <StyledAcknowledgements>
-          Jakub Krehel's blog on Animated Sign-In Dialog
+          Jakub Krehel's blog on Animated Sign-In Dialog helped so much
           <a href="https://jakub.kr/components/sign-in-dialog" target="_blank">
             Read it here
           </a>
@@ -377,7 +377,7 @@ function App() {
 export default App;
 
 const StyledContainer = styled.div`
-  max-width: 550px;
+  max-width: 580px;
   width: 100%;
   margin: 0 auto;
   padding: 0 16px;
@@ -662,6 +662,15 @@ const StyledAcknowledgements = styled.div`
       scale: 0.9;
     }
 
+    font-weight: 500;
     transition: ease 0.2s all;
+  }
+  border-bottom: 1px solid var(--border);
+  @media (max-width: 480px) {
+    flex-direction: column;
+    text-align: -webkit-center;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 15px;
   }
 `;
