@@ -1,74 +1,153 @@
-# React + TypeScript + Vite
+# 🧈 ButterModal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A smoothly animated multi-step modal component for React. Built on top of [Radix UI's Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) primitive and [Framer Motion](https://www.framer.com/motion/).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Animated height transitions** — the modal smoothly resizes as content changes between steps
+- **Spring-based content transitions** — each step scales and fades in/out with a subtle spring animation (95% → 100%)
+- **Fully customizable** — control theme colors, border radius, padding, and overlay styles via props
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Installation
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm i butter-modal
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Quick Start
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
+Define your modal steps as an array of `ModalState` objects - each with a unique `key` and a `content` node. Pass this array to the `states` prop along with your open state and step state.
+
+ButterModal will automatically animate between content frames as the step changes, smoothly resizing the modal container to fit the new content height.
+
+```tsx
+import { useState } from 'react';
+import { ButterModal } from 'butter-modal';
+
+function App() {
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState('welcome');
+
+  const handleClose = () => {
+    setOpen(false);
+    setStep('welcome');
+  };
+
+  const states = [
+    {
+      key: 'welcome',
+      content: (
+        <div>
+          <h2>Welcome</h2>
+          <p>This is step one.</p>
+          <button onClick={() => setStep('details')}>Next</button>
+        </div>
+      ),
     },
-  },
-])
+    {
+      key: 'details',
+      content: (
+        <div>
+          <h2>Details</h2>
+          <p>This is step two with more content.</p>
+          <button onClick={() => setStep('welcome')}>Back</button>
+          <button onClick={handleClose}>Done</button>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+      <ButterModal
+        states={states}
+        step={step}
+        onStepChange={setStep}
+        initialStep="welcome"
+        open={open}
+        onOpenChange={setOpen}
+        onClose={handleClose}
+        theme={{
+          background: '#ffffff',
+          border: 'transparent',
+          text: '#111111',
+          overlay: '#000000',
+        }}
+        containerStyle={{ padding: 12 }}
+        contentStyle={{ borderRadius: 20 }}
+      />
+    </>
+  );
+}
 ```
-# butter-modal-web
+
+---
+
+## Children Render Prop
+
+The `children` render prop gives you access to the current `step`, a `setStep` function, and a `close` function.
+
+```tsx
+<ButterModal
+  states={states}
+  step={step}
+  onStepChange={setStep}
+  initialStep="default"
+  open={open}
+  onOpenChange={setOpen}
+  onClose={handleClose}
+>
+  {({ step, setStep, close }) => (
+    <div>
+      <button onClick={close}>Done</button>
+    </div>
+  )}
+</ButterModal>
+```
+
+---
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `states` | `ModalState[]` | Array of step objects, each with a `key` and `content` |
+| `initialStep` | `ModalStep` | The key of the initial step to display |
+| `step` | `ModalStep` | The currently active step key (controlled) |
+| `onStepChange` | `(step: ModalStep) => void` | Callback fired when the step should change |
+| `open` | `boolean` | Whether the modal is open |
+| `onOpenChange` | `(open: boolean) => void` | Callback fired when open state changes |
+| `onClose` | `() => void` | Callback fired when the modal closes |
+| `trigger` | `React.ReactNode` | Optional trigger element to open the modal |
+| `overlayStyle` | `React.CSSProperties` | Custom styles for the backdrop overlay |
+| `contentStyle` | `React.CSSProperties` | Custom styles for the modal content container |
+| `containerStyle` | `React.CSSProperties` | Custom styles for the inner padding container |
+| `theme` | `ButterModalTheme` | Theme object for colors (see below) |
+| `children` | `({ step, setStep, close }) => React.ReactNode` | Render prop for persistent navigation controls |
+
+### `ButterModalTheme`
+
+```ts
+type ButterModalTheme = {
+  background?: string;  // Modal background color
+  border?: string;      // Modal border color
+  text?: string;        // Default text color
+  overlay?: string;     // Backdrop overlay color
+};
+```
+
+---
+
+## Built With
+
+- [Radix UI Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) — accessible dialog primitive
+- [Framer Motion](https://www.framer.com/motion/) — spring animations and layout transitions
+
+---
+
+More love for the web by [Arnav Nath](https://arnavshome.vercel.app)
