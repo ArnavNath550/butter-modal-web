@@ -351,8 +351,18 @@ function App() {
           ))}
         </StyledPropsContainer>
       </FadeUp>
-
       <FadeUp index={11}>
+        <StyledHeading>Acknowledgements</StyledHeading>
+      </FadeUp>
+      <FadeUp index={12}>
+        <StyledAcknowledgements>
+          Jakub Krehel's blog on Animated Sign-In Dialog
+          <a href="https://jakub.kr/components/sign-in-dialog" target="_blank">
+            Read it here
+          </a>
+        </StyledAcknowledgements>
+      </FadeUp>
+      <FadeUp index={13}>
         <StyledFooter>
           More Love for the web from{" "}
           <UnstyledLink href="https://arnavshome.vercel.app">
@@ -632,4 +642,26 @@ const StyledVersion = styled.div`
 const StyledVersionText = styled.div`
   font-size: 0.8rem;
   color: var(--info);
+`;
+
+const StyledAcknowledgements = styled.div`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 0.9rem;
+  color: var(--info);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    color: var(--text) !important;
+    text-decoration: underline;
+
+    &:active {
+      scale: 0.9;
+    }
+
+    transition: ease 0.2s all;
+  }
 `;
