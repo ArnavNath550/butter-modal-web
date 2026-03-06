@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./index.css";
 import { ButterModal } from "butter-modal";
-import { createRoot } from "react-dom/client";
+
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Code } from "./components/Code";
 
 const fadeUpVariants = {
@@ -41,13 +41,6 @@ const SHARED_TRANSITION = {
   mass: 0.3,
 };
 
-const WOBBLE_TRANSITION = {
-  type: "spring",
-  stiffness: 400,
-  damping: 10,
-  mass: 1,
-};
-
 function FadeUp({
   children,
   index,
@@ -60,6 +53,7 @@ function FadeUp({
       custom={index}
       initial="hidden"
       animate="visible"
+      //@ts-ignore
       variants={fadeUpVariants}
     >
       {children}
