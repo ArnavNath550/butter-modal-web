@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import { ButterModal } from "butter-modal";
 import styled from "styled-components";
-import { motion, Transition, Variants } from "framer-motion";
+import { motion, type Transition, type Variants } from "framer-motion";
 import { Code } from "./components/Code";
 
 const fadeUpVariants: Variants = {
