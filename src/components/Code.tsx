@@ -1,3 +1,4 @@
+import copy from "copy-to-clipboard";
 import { Highlight } from "prism-react-renderer";
 import styled from "styled-components";
 

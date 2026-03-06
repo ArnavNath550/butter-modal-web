@@ -88,6 +88,7 @@ function App() {
           <StyledModalFooter>
             <motion.div
               layoutId="nav-btn"
+              //@ts-ignore
               transition={SHARED_TRANSITION}
               style={{ width: "100%", maxWidth: 200 }}
             >
@@ -117,6 +118,7 @@ function App() {
             </StyledButton>
             <motion.div
               layoutId="nav-btn"
+              //@ts-ignore
               transition={SHARED_TRANSITION}
               style={{ width: "100%", maxWidth: 200 }}
             >
@@ -151,6 +153,7 @@ function App() {
             </StyledButton>
             <motion.div
               layoutId="nav-btn"
+              //@ts-ignore
               transition={SHARED_TRANSITION}
               style={{ width: "100%", maxWidth: 200 }}
             >
@@ -185,7 +188,9 @@ function App() {
               Back
             </StyledButton>
             <motion.div
+              //@ts-ignore
               layoutId="nav-btn"
+              //@ts-ignore
               transition={SHARED_TRANSITION}
               style={{ width: "100%", maxWidth: 200 }}
             >
