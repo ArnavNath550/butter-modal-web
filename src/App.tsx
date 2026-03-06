@@ -243,7 +243,7 @@ function App() {
             whileTap={{ scale: 0.9 }}
             style={{ cursor: "pointer" }}
           >
-            <StyledImage src="public/images/butterlogo.svg" />
+            <StyledImage src="./images/butterlogo.svg" />
           </motion.div>
         </StyledHeader>
       </FadeUp>
