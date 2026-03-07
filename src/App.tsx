@@ -248,7 +248,7 @@ function App() {
         >
           <StyledVersion>
             <StyledCodePreview>{renderButterModalText()}</StyledCodePreview>
-            <StyledVersionText>v1.0.0</StyledVersionText>
+            <StyledVersionText>v1.0.7</StyledVersionText>
           </StyledVersion>
           ButterModal is a multi-step modal component for React with smooth
           spring animations. Built on top of Radix UI&apos;s Dialog primitive
